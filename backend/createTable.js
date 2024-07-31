@@ -22,7 +22,7 @@ const createInvoicesTable = async () => {
   try {
     await db.execute(`
       CREATE TABLE invoices (
-        invoice_no INT PRIMARY KEY AUTO_INCREMENT,
+        id INT PRIMARY KEY AUTO_INCREMENT,
         date DATE NOT NULL,
         customer_name VARCHAR(255) NOT NULL,
         salesperson_name VARCHAR(255) NOT NULL,
@@ -42,10 +42,10 @@ const createInvoiceProducts = async () => {
        CREATE TABLE invoice_products (
         id INT PRIMARY KEY AUTO_INCREMENT,
         invoice_no INT NOT NULL,
-        product_no INT NOT NULL,
+        name VARCHAR(255) NOT NULL,
         quantity INT NOT NULL,
-        FOREIGN KEY (invoice_no) REFERENCES invoices(invoice_no),
-        FOREIGN KEY (product_no) REFERENCES products(id)
+        totalPrice DECIMAL(10, 2) NOT NULL,
+        FOREIGN KEY (invoice_no) REFERENCES invoices(id)
       );
       `);
     console.log("Table created successfully!");
@@ -54,6 +54,6 @@ const createInvoiceProducts = async () => {
   }
 };
 
-// createProductsTable();
-// createInvoicesTable();
+createProductsTable();
+createInvoicesTable();
 createInvoiceProducts();

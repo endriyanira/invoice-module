@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const db = require("../config/database");
+const db = require("../config/db");
 
 const InvoiceDAO = require("../dao/invoice.dao");
+const InvoiceProductDAO = require("../dao/invoiceproduct.dao");
 
 router.use(cors());
 
@@ -21,21 +22,33 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const invoiceDAO = new InvoiceDAO();
+    const invoiceWithProducts = await invoiceDAO.getInvoice(id);
+    res.json(invoiceWithProducts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error fetching invoice",
+    });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
-    console.log(req.body);
     const invoiceDAO = new InvoiceDAO();
-    const invoice = await invoiceDAO.createInvoice(req.body);
+    const invoiceId = await invoiceDAO.createInvoice(req.body);
+    const { items } = req.body;
 
-    // items.forEach(async (item) => {
-    //   const query = `INSERT INTO invoice_items (invoice_id, item_name, quantity, price) VALUES (?, ?, ?, ?)`;
-    //   const values = [invoiceId, item.name, item.quantity, item.price];
-    //   await db.execute(query, values);
-    // });
+    for (const element of items) {
+      const invoiceProductDAO = new InvoiceProductDAO();
+      await invoiceProductDAO.createInvoiceProduct(invoiceId, element);
+    }
 
     res.status(201).send({
       message: "Invoice created successfully",
-      data: invoice,
     });
   } catch (error) {
     console.error(error);

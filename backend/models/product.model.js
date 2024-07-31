@@ -1,9 +1,10 @@
 class Product {
-  constructor(item, quantity, totalCost, totalPrice) {
-    this.item = item;
-    this.quantity = quantity;
-    this.totalCost = totalCost;
-    this.totalPrice = totalPrice;
+  constructor(id, name, picture, stock, price) {
+    this.id = id;
+    this.name = name;
+    tbis.picture = picture;
+    this.stock = stock;
+    this.price = price;
   }
 }
 

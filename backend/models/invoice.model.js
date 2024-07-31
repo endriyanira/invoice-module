@@ -1,10 +1,10 @@
 class Invoice {
-  constructor(invoiceNo, date, customer, salesperson, paymentType, notes) {
-    this.invoice_no = invoiceNo;
+  constructor(id, date, customer, salesperson, paymentType, notes) {
+    this.id = id;
     this.date = date;
     this.customer_name = customer;
     this.salesperson_name = salesperson;
-    this.paymentType = paymentType;
+    this.payment_type = paymentType;
     this.notes = notes;
   }
 }

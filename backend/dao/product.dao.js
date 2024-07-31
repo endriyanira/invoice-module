@@ -5,8 +5,9 @@ class ProductDAO {
   getAllProducts = async () => {
     const [rows] = await db.execute("SELECT * FROM products");
     return rows.map(
-      (row) =>
-        new Product(row.item, row.quantity, row.totalCost, row.totalPrice)
+      (row) => new Product(row.id, row.name, row.picture, row.stock, row.price)
     );
   };
 }
+
+module.exports = ProductDAO;
