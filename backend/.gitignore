@@ -1,0 +1,20 @@
+# Node.js dependencies
+node_modules/
+
+# MySQL database files
+db.sql
+wida_tech_invoice.sql
+
+# Environment files
+.env
+
+# Log files
+logs/
+npm-debug.log
+
+# OS files
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
