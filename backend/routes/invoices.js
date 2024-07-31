@@ -3,6 +3,7 @@ const router = express.Router();
 const cors = require("cors");
 const db = require("../config/db");
 
+const Invoice = require("../models/invoice.model");
 const InvoiceDAO = require("../dao/invoice.dao");
 const InvoiceProductDAO = require("../dao/invoiceproduct.dao");
 
@@ -10,9 +11,14 @@ router.use(cors());
 
 /* GET invoices listing */
 router.get("/", async (req, res) => {
+  const { page, perPage } = req.query;
+  const currentPage = parseInt(page, 10) || 1;
+  const perPageLimit = parseInt(perPage, 10) || 10;
+
   try {
     const invoiceDAO = new InvoiceDAO();
-    const invoices = await invoiceDAO.getAllInvoices();
+    const invoices = await invoiceDAO.getAllInvoices(currentPage, perPageLimit);
+
     res.json(invoices);
   } catch (error) {
     console.error(error);
@@ -22,6 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+/* GET invoices by id */
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;

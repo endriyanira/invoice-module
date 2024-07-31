@@ -2,19 +2,34 @@ const db = require("../config/db");
 const Invoice = require("../models/invoice.model");
 
 class InvoiceDAO {
-  getAllInvoices = async () => {
-    const [rows] = await db.execute("SELECT * FROM invoices");
-    return rows.map(
-      (row) =>
-        new Invoice(
-          row.id,
-          row.date,
-          row.customer_name,
-          row.salesperson_name,
-          row.payment_type,
-          row.notes
-        )
+  getAllInvoices = async (page, perPage) => {
+    const offset = (page - 1) * perPage;
+    const query = `SELECT * FROM invoices LIMIT ${perPage} OFFSET ${offset}`;
+    const [rows] = await db.execute(query);
+
+    // Get the total count of invoices
+    const [totalCount] = await db.execute(
+      "SELECT COUNT(*) AS count FROM invoices"
     );
+    const totalCountValue = totalCount[0].count;
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(totalCountValue / perPage);
+    const currentPage = page;
+    const hasNextPage = currentPage < totalPages;
+    const hasPreviousPage = currentPage > 1;
+
+    // Return the pagination metadata along with the invoices
+    return {
+      invoices: rows,
+      pagination: {
+        totalCount: totalCountValue,
+        totalPages,
+        currentPage,
+        hasNextPage,
+        hasPreviousPage,
+      },
+    };
   };
 
   getInvoice = async (id) => {
