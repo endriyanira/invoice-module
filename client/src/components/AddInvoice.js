@@ -17,6 +17,7 @@ import {
   TableRow,
   Paper,
   OutlinedInput,
+  MenuItem,
 } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -213,8 +214,8 @@ const AddInvoice = () => {
                           >
                             <HighlightOffIcon color="error" />
                           </Button>
-
                           <Autocomplete
+                            disablePortal
                             id="product-input"
                             options={products}
                             getOptionLabel={(option) => option.name}
@@ -223,11 +224,43 @@ const AddInvoice = () => {
                             }
                             fullWidth
                             renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="Product"
-                                variant="outlined"
-                              />
+                              <MenuItem>
+                                <TextField
+                                  {...params}
+                                  label="Product"
+                                  variant="outlined"
+                                />
+                              </MenuItem>
+                            )}
+                            renderOption={(props, item) => (
+                              <Box component="li" {...props}>
+                                <img
+                                  src={item.picture}
+                                  alt={item.name}
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                                <Grid gap={2}>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                  >
+                                    {item.name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                  >
+                                    Stock: {item.stock}
+                                  </Typography>
+                                  <Typography variant="body2">
+                                    Rp {parseFloat(item.price).toFixed(2)}
+                                  </Typography>
+                                </Grid>
+                              </Box>
                             )}
                           />
                         </Box>
