@@ -16,8 +16,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  CardMedia,
+  OutlinedInput,
 } from "@mui/material";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -92,7 +93,6 @@ const AddInvoice = () => {
   };
 
   const handleAddItem = () => {
-    // concat
     setItems([...items, newItem]);
   };
 
@@ -190,7 +190,6 @@ const AddInvoice = () => {
                     <TableCell align="left">Price</TableCell>
                     <TableCell align="left">Qty</TableCell>
                     <TableCell align="left">Total</TableCell>
-                    <TableCell align="left">Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -200,7 +199,21 @@ const AddInvoice = () => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        <Grid item xs={3}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: "20px",
+                          }}
+                        >
+                          <Button
+                            color="error"
+                            onClick={() => handleRemoveItem(index)}
+                          >
+                            <HighlightOffIcon color="error" />
+                          </Button>
+
                           <Autocomplete
                             id="product-input"
                             options={products}
@@ -208,6 +221,7 @@ const AddInvoice = () => {
                             onChange={(e, value) =>
                               handleChangeItemProduct(e, value, index)
                             }
+                            fullWidth
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -216,29 +230,28 @@ const AddInvoice = () => {
                               />
                             )}
                           />
-                        </Grid>
+                        </Box>
                       </TableCell>
 
                       {/* Price */}
-                      <TableCell align="right">
-                        <Grid item xs={3}>
-                          <TextField
-                            fullWidth
-                            disabled
-                            type="text"
-                            value={row.price}
-                            onChange={(event) =>
-                              handleChangeItem(event, "price")
-                            }
-                          />
-                        </Grid>
+                      <TableCell align="left">
+                        <OutlinedInput
+                          id="outlined-adornment-amount"
+                          startAdornment={
+                            <InputAdornment position="start">Rp</InputAdornment>
+                          }
+                          fullWidth
+                          value={parseFloat(row.price).toFixed(2)}
+                          disabled
+                          type="number"
+                          onChange={(event) => handleChangeItem(event, "price")}
+                        />
                       </TableCell>
 
                       {/* Quantity */}
-                      <TableCell align="right">
+                      <TableCell align="left">
                         <Grid item xs={3}>
                           <TextField
-                            fullWidth
                             type="number"
                             value={row.quantity}
                             onChange={(event) =>
@@ -253,106 +266,17 @@ const AddInvoice = () => {
                           ? parseFloat(row.totalPrice).toFixed(2)
                           : "0"}
                       </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={() => handleRemoveItem(index)}
-                        >
-                          Remove
-                        </Button>
-                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-            {/* <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <Autocomplete
-                  id="product-input"
-                  options={products}
-                  getOptionLabel={(option) => option.name}
-                  onChange={handleChangeItemProduct}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Product" variant="outlined" />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  value={newItem.quantity}
-                  onChange={(event) => handleChangeItem(event, "quantity")}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="number"
-                  value={newItem.totalPrice}
-                  onChange={(event) => handleChangeItem(event, "totalPrice")}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">Rp</InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  //   label="Qty"
-                  type="text"
-                  value={newItem.quantity}
-                  onChange={(event) => handleChangeItem(event, "quantity")}
-                />
-              </Grid>
-            </Grid> */}
-            {/* </Box> */}
           </Box>
           <Grid item xs={3} paddingY={2}>
             <Button variant="contained" onClick={handleAddItem}>
               Add Item
             </Button>
           </Grid>
-
-          {/* {items.length !== 0 &&
-            items.map((item, index) => (
-              <Grid item xs={12} key={index}>
-                <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={3}>
-                    <Typography variant="body1">{item.name}</Typography>
-                  </Grid>
-                  <Grid item xs={1}>
-                    <Typography variant="body1">{item.quantity}</Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="body1">${item.totalPrice}</Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="body1">
-                      $
-                      {(
-                        parseFloat(item.quantity) * parseFloat(item.price)
-                      ).toFixed(2)}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={() => handleRemoveItem(index)}
-                    >
-                      Remove
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Grid>
-            ))} */}
 
           <Button type="submit">Create Invoice</Button>
         </form>
