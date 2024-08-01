@@ -10,7 +10,9 @@ const API_BASE_URL = "http://localhost:3000/api";
 // Get all invoices
 export const fetchInvoicesData = (page) => async (dispatch) => {
   dispatch(fetchInvoices());
-  const url = `${API_BASE_URL}/invoices?page=${page}&per_page=10`;
+  const url = `${API_BASE_URL}/invoices?page=${
+    page !== undefined ? page : "1"
+  }&per_page=10`;
   try {
     const response = await axios({
       method: "GET",

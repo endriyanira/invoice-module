@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 
-import { getDateFromISOString } from "../utils";
+import { formatCurrency, getDateFromISOString } from "../utils";
 
 const InvoiceCard = ({ invoice }) => {
   return (
@@ -71,7 +71,7 @@ const InvoiceCard = ({ invoice }) => {
           <Typography variant="body2" color="black" mt={3}>
             Total Amount:
             <Typography variant="body2" color="grey">
-              Rp 200.000,00
+              {formatCurrency(invoice.total_amount)}
             </Typography>
           </Typography>
         </Box>
