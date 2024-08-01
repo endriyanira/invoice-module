@@ -15,7 +15,7 @@ const InvoicesList = () => {
   const errorFetchInvoice = useSelector((state) => state.error_fetch_invoices);
 
   useEffect(() => {
-    dispatch(fetchInvoicesData("init"));
+    dispatch(fetchInvoicesData());
   }, [dispatch]);
 
   return (
