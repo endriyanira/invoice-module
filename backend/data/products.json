@@ -1,37 +1,30 @@
 [
   {
     "id": 1,
-    "name": "Product A",
-    "price": 10.99,
+    "name": "Bluetooth speaker",
+    "price": 210000,
     "stock": 10,
-    "image": "product-a.jpg"
+    "picture": "https://via.placeholder.com/150/b0f7cc"
   },
   {
     "id": 2,
-    "name": "Product B",
-    "price": 9.99,
+    "name": "Headphone",
+    "price": 50000,
     "stock": 20,
-    "image": "product-b.jpg"
+    "picture": "https://via.placeholder.com/150/197d29"
   },
   {
     "id": 3,
-    "name": "Product C",
-    "price": 12.99,
+    "name": "Laptop charger",
+    "price": 200000,
     "stock": 5,
-    "image": "product-c.jpg"
+    "picture": "https://via.placeholder.com/150/f66b97"
   },
   {
     "id": 4,
-    "name": "Product D",
-    "price": 8.99,
+    "name": "LCD Monitor",
+    "price": 500000,
     "stock": 15,
-    "image": "product-d.jpg"
-  },
-  {
-    "id": 5,
-    "name": "Product E",
-    "price": 11.99,
-    "stock": 8,
-    "image": "product-e.jpg"
+    "picture": "https://via.placeholder.com/150/8985dc"
   }
 ]
