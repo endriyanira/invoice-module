@@ -1,28 +1,32 @@
 import axios from "axios";
+import {
+  fetchInvoices,
+  fetchInvoicesSuccess,
+  fetchInvoicesFailure,
+} from "./redux/actions";
 
-const API_BASE_URL = "localhost:3000";
+const API_BASE_URL = "http://localhost:3000/api";
 
 // Get all invoices
-export const getAllInvoices = async () => {
+export const fetchInvoicesData = () => async (dispatch) => {
+  dispatch(fetchInvoices);
   try {
     const response = await axios({
       method: "GET",
       url: `${API_BASE_URL}/invoices`,
     });
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw Error(response.status + " " + response.statusText);
     }
-    if (!response.body) {
-      throw Error("ReadableStream not yet supported in this browser.");
-    }
+    dispatch(fetchInvoicesSuccess(response.data));
     return response.data;
   } catch (error) {
-    console.log("Error fetching data:", error);
+    dispatch(fetchInvoicesFailure(error.message));
     return false;
   }
 };
 
-export const createInvoice = async (invoice, items) => {
+export const createInvoice = async (invoice, items, page) => {
   try {
     const payload = {
       date: invoice.date,
@@ -35,7 +39,7 @@ export const createInvoice = async (invoice, items) => {
 
     const response = await axios({
       method: "POST",
-      url: `${API_BASE_URL}/invoices`,
+      url: `${API_BASE_URL}/invoices/page=${page}/per_page=${10}`,
       data: payload,
     });
 
