@@ -1,6 +1,5 @@
 import {
   ADD_INVOICE,
-  GET_INVOICES,
   FETCH_INVOICES,
   FETCH_INVOICES_SUCCESS,
   FETCH_INVOICES_FAILURE,
@@ -8,13 +7,6 @@ import {
 
 export const addInvoice = (invoice) => (dispatch) => {
   dispatch({ type: ADD_INVOICE, payload: invoice });
-};
-
-export const getInvoices = () => (data) => {
-  return {
-    type: GET_INVOICES,
-    payload: data,
-  };
 };
 
 export const fetchInvoices = () => {

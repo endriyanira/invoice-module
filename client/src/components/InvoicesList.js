@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Box, Typography, Card, CardContent, Button } from "@mui/material";
 import InvoiceCard from "./InvoiceCard";
 import { fetchInvoicesData } from "../api";
+import Paginate from "./Paginate";
 
 const InvoicesList = () => {
   const dispatch = useDispatch();
@@ -14,11 +15,19 @@ const InvoicesList = () => {
   const errorFetchInvoice = useSelector((state) => state.error_fetch_invoices);
 
   useEffect(() => {
-    dispatch(fetchInvoicesData());
+    dispatch(fetchInvoicesData("init"));
   }, [dispatch]);
 
   return (
-    <Box sx={{ padding: "30px", mx: "100px" }}>
+    <Box
+      sx={{
+        padding: "30px",
+        mx: "100px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -69,6 +78,7 @@ const InvoicesList = () => {
             </Box>
           </CardContent>
         </Card>
+        <Paginate />
       </Box>
     </Box>
   );

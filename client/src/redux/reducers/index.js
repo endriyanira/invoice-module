@@ -1,6 +1,5 @@
 import {
   ADD_INVOICE,
-  GET_INVOICES,
   FETCH_INVOICES,
   FETCH_INVOICES_SUCCESS,
   FETCH_INVOICES_FAILURE,
@@ -20,7 +19,6 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log(action.payload);
   switch (action.type) {
     case FETCH_INVOICES:
       return {
@@ -33,6 +31,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         invoices: action.payload.invoices,
+        pagination: action.payload.pagination,
         loading_fetch_invoices: false,
       };
 
@@ -43,6 +42,7 @@ const reducer = (state = initialState, action) => {
         error_fetch_invoices: action.payload.error,
         loading_fetch_invoices: false,
       };
+
     default:
       return state;
   }
