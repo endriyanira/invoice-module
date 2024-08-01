@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Bluetooth speaker",
+    "price": 210000,
+    "stock": 10,
+    "picture": "https://via.placeholder.com/150/b0f7cc"
+  },
+  {
+    "id": 2,
+    "name": "Headphone",
+    "price": 50000,
+    "stock": 20,
+    "picture": "https://via.placeholder.com/150/197d29"
+  },
+  {
+    "id": 3,
+    "name": "Laptop charger",
+    "price": 200000,
+    "stock": 5,
+    "picture": "https://via.placeholder.com/150/f66b97"
+  },
+  {
+    "id": 4,
+    "name": "LCD Monitor",
+    "price": 500000,
+    "stock": 15,
+    "picture": "https://via.placeholder.com/150/8985dc"
+  }
+]
