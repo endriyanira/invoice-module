@@ -45,10 +45,8 @@ const query = async (sql, values) => {
 };
 
 const getInvoices = async () => {
-  console.log("masuk get invoices");
   const sql = `SELECT * FROM invoices`;
   const results = await query(sql);
-  console.log(results);
   return results;
 };
 

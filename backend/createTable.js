@@ -27,6 +27,7 @@ const createInvoicesTable = async () => {
         customer_name VARCHAR(255) NOT NULL,
         salesperson_name VARCHAR(255) NOT NULL,
         payment_type VARCHAR(255) NOT NULL,
+        total_amount DECIMAL(10,2) NOT NULL,
         notes TEXT
       );
     `);

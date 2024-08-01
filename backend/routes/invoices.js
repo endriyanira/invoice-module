@@ -49,9 +49,9 @@ router.post("/", async (req, res) => {
     const invoiceId = await invoiceDAO.createInvoice(req.body);
     const { items } = req.body;
 
-    for (const element of items) {
+    for (const item of items) {
       const invoiceProductDAO = new InvoiceProductDAO();
-      await invoiceProductDAO.createInvoiceProduct(invoiceId, element);
+      await invoiceProductDAO.createInvoiceProduct(invoiceId, item);
     }
 
     res.status(201).send({
