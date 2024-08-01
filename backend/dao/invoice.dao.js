@@ -1,5 +1,6 @@
 const db = require("../config/db");
 const Invoice = require("../models/invoice.model");
+const { getInvoiceTotalAmount } = require("../utils/utils");
 
 class InvoiceDAO {
   getAllInvoices = async (page, perPage) => {
@@ -50,7 +51,6 @@ class InvoiceDAO {
       i.id = ?
   `;
     const [rows] = await db.execute(query, [id]);
-    console.log(invoice);
     return {
       ...invoice,
       products: [rows],
@@ -58,11 +58,24 @@ class InvoiceDAO {
   };
 
   createInvoice = async (invoice) => {
-    const { date, customer_name, salesperson_name, payment_type, notes } =
-      invoice;
-    console.log(invoice);
-    const query = `INSERT INTO invoices (date, customer_name, salesperson_name, payment_type, notes) VALUES (?, ?, ?, ?, ?)`;
-    const values = [date, customer_name, salesperson_name, payment_type, notes];
+    const {
+      date,
+      customer_name,
+      salesperson_name,
+      payment_type,
+      notes,
+      items,
+    } = invoice;
+    const totalAmount = getInvoiceTotalAmount(items);
+    const query = `INSERT INTO invoices (date, customer_name, salesperson_name, payment_type, notes, total_amount) VALUES (?, ?, ?, ?, ?,?)`;
+    const values = [
+      date,
+      customer_name,
+      salesperson_name,
+      payment_type,
+      notes,
+      totalAmount,
+    ];
     const result = await db.execute(query, values);
     return result[0].insertId;
   };
