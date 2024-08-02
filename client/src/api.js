@@ -4,6 +4,9 @@ import {
   fetchInvoices,
   fetchInvoicesSuccess,
   fetchInvoicesFailure,
+  createInvoice,
+  createInvoiceSuccess,
+  createInvoiceFailure,
 } from "./redux/actions";
 
 const API_BASE_URL = "http://localhost:3000/api";
@@ -31,7 +34,8 @@ export const fetchInvoicesData = (page) => async (dispatch) => {
   }
 };
 
-export const createInvoice = async (invoice, items) => {
+export const postInvoice = (invoice, items) => async (dispatch) => {
+  dispatch(createInvoice());
   try {
     const payload = {
       date: getDateFromISOString(invoice.date),
@@ -41,7 +45,6 @@ export const createInvoice = async (invoice, items) => {
       notes: invoice.notes,
       items,
     };
-    console.log(payload);
 
     const response = await axios({
       method: "POST",
@@ -49,12 +52,13 @@ export const createInvoice = async (invoice, items) => {
       data: payload,
     });
 
-    if (!response.ok) {
+    if (!response.status === 201) {
       throw Error(response.status + " " + response.statusText);
     }
+    dispatch(createInvoiceSuccess(response.data.message));
     return response.data;
   } catch (error) {
-    console.log("Error fetching data:", error);
-    return false;
+    console.log(error.message);
+    dispatch(createInvoiceFailure(error.message));
   }
 };

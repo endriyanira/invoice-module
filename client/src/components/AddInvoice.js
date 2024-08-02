@@ -37,7 +37,7 @@ import {
   changeItems,
 } from "../redux/actions";
 import { getDateFromISOString } from "../utils";
-import { createInvoice } from "../api";
+import { postInvoice } from "../api";
 
 const products = productsJSON;
 
@@ -116,26 +116,8 @@ const AddInvoice = () => {
   };
 
   const handleSubmit = (event) => {
-    // const payload = {
-    //   date: getDateFromISOString(invoice.date),
-    //   customer_name: invoice.customer_name,
-    //   salesperson_name: invoice.salesperson_name,
-    //   payment_type: invoice.payment_type,
-    //   notes: invoice.notes,
-    //   items,
-    // };
-    // console.log(payload);
     event.preventDefault();
-    // POST API call to save the invoice to database
-    dispatch(createInvoice(invoice, items));
-    // fetch("/localhost:3000/invoices", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ invoiceData }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data))
-    //   .catch((error) => console.error(error));
+    dispatch(postInvoice(invoice, items));
   };
 
   return (
