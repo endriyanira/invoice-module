@@ -58,7 +58,6 @@ export const postInvoice = (invoice, items) => async (dispatch) => {
     dispatch(createInvoiceSuccess(response.data.message));
     return response.data;
   } catch (error) {
-    console.log(error.message);
     dispatch(createInvoiceFailure(error.message));
   }
 };
