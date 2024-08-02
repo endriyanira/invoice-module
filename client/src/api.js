@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getDateFromISOString } from "./utils";
 import {
   fetchInvoices,
   fetchInvoicesSuccess,
@@ -30,30 +31,28 @@ export const fetchInvoicesData = (page) => async (dispatch) => {
   }
 };
 
-export const createInvoice = async (invoice, items, page) => {
+export const createInvoice = async (invoice, items) => {
   try {
     const payload = {
-      date: invoice.date,
-      customer_name: invoice.customerName,
+      date: getDateFromISOString(invoice.date),
+      customer_name: invoice.customer_name,
       salesperson_name: invoice.salesperson_name,
-      payment_type: invoice.paymentType,
+      payment_type: invoice.payment_type,
       notes: invoice.notes,
-      items: items,
+      items,
     };
+    console.log(payload);
 
     const response = await axios({
       method: "POST",
-      url: `${API_BASE_URL}/invoices/page=${page}/per_page=${10}`,
+      url: `${API_BASE_URL}/invoices`,
       data: payload,
     });
 
     if (!response.ok) {
       throw Error(response.status + " " + response.statusText);
     }
-    if (!response.body) {
-      throw Error("ReadableStream not yet supported in this browser.");
-    }
-    return true;
+    return response.data;
   } catch (error) {
     console.log("Error fetching data:", error);
     return false;

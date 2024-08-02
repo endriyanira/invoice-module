@@ -34,14 +34,16 @@ import {
   changeSalesPersonName,
   changePaymentType,
   changeNotes,
+  changeItems,
 } from "../redux/actions";
 import { getDateFromISOString } from "../utils";
+import { createInvoice } from "../api";
 
 const products = productsJSON;
 
 const AddInvoice = () => {
   const dispatch = useDispatch();
-  const invoiceData = useSelector((state) => state.invoiceData);
+  const invoice = useSelector((state) => state.invoice);
 
   const [items, setItems] = useState([
     { name: "", picture: "", quantity: 1, price: 0, totalPrice: 0 },
@@ -66,6 +68,7 @@ const AddInvoice = () => {
       updatedItems[index].totalPrice =
         parseFloat(price) * parseFloat(updatedItems[index].quantity);
       setItems(updatedItems);
+      dispatch(changeItems(updatedItems));
     }
   };
 
@@ -76,6 +79,7 @@ const AddInvoice = () => {
       parseFloat(updatedItems[index].price) *
       parseFloat(updatedItems[index].quantity);
     setItems(updatedItems);
+    dispatch(changeItems(updatedItems));
   };
 
   const handleChangeItem = (e, field) => {
@@ -94,10 +98,12 @@ const AddInvoice = () => {
 
   const handleAddItem = () => {
     setItems([...items, newItem]);
+    dispatch(changeItems(items));
   };
 
   const handleRemoveItem = (index) => {
     setItems(items.filter((_, i) => i !== index));
+    dispatch(changeItems(items));
   };
 
   const calculateTotalPrice = () => {
@@ -110,16 +116,26 @@ const AddInvoice = () => {
   };
 
   const handleSubmit = (event) => {
+    // const payload = {
+    //   date: getDateFromISOString(invoice.date),
+    //   customer_name: invoice.customer_name,
+    //   salesperson_name: invoice.salesperson_name,
+    //   payment_type: invoice.payment_type,
+    //   notes: invoice.notes,
+    //   items,
+    // };
+    // console.log(payload);
     event.preventDefault();
     // POST API call to save the invoice to database
-    fetch("/localhost:3000/invoices", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ invoiceData }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+    dispatch(createInvoice(invoice, items));
+    // fetch("/localhost:3000/invoices", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ invoiceData }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => console.log(data))
+    //   .catch((error) => console.error(error));
   };
 
   return (
@@ -135,15 +151,15 @@ const AddInvoice = () => {
               <DemoItem>
                 <DatePicker
                   label="Date"
-                  defaultValue={dayjs(invoiceData.date)}
-                  // onChange={(newValue) => {
-                  //   console.log(dayjs(newValue));
-                  //   setInvoice({ ...invoice, date: newValue });
-                  // }}
+                  defaultValue={dayjs(invoice.date)}
                   onChange={(date) =>
                     dispatch(changeDate(getDateFromISOString(date)))
                   }
-                  required
+                  slotProps={{
+                    textField: {
+                      required: true,
+                    },
+                  }}
                 />
               </DemoItem>
             </LocalizationProvider>
@@ -152,7 +168,7 @@ const AddInvoice = () => {
             <TextField
               label="Customer Name"
               name="customerName"
-              value={invoiceData.customer_name}
+              value={invoice.customer_name}
               onChange={(e) => dispatch(changeCustomerName(e.target.value))}
               required
             />
@@ -161,15 +177,16 @@ const AddInvoice = () => {
             <TextField
               label="Salesperson Name"
               name="salespersonName"
-              value={invoiceData.salesperson_name}
+              value={invoice.salesperson_name}
               onChange={(e) => dispatch(changeSalesPersonName(e.target.value))}
+              required
             />
 
             {/* Payment Type */}
             <TextField
               label="Payment Type"
               name="paymentType"
-              value={invoiceData.payment_type}
+              value={invoice.payment_type}
               onChange={(e) => dispatch(changePaymentType(e.target.value))}
               required
             />
@@ -178,7 +195,7 @@ const AddInvoice = () => {
             <TextField
               label="Notes"
               name="notes"
-              value={invoiceData.notes}
+              value={invoice.notes}
               multiline
               rows={4}
               onChange={(e) => dispatch(changeNotes(e.target.value))}
