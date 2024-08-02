@@ -1,5 +1,4 @@
 import {
-  ADD_INVOICE,
   FETCH_INVOICES,
   FETCH_INVOICES_SUCCESS,
   FETCH_INVOICES_FAILURE,
@@ -13,10 +12,6 @@ import {
   CREATE_INVOICE_SUCCESS,
   CREATE_INVOICE_FAILURE,
 } from "../constants/types";
-
-export const addInvoice = (invoice) => (dispatch) => {
-  dispatch({ type: ADD_INVOICE, payload: invoice });
-};
 
 export const fetchInvoices = () => {
   return {
