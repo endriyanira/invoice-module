@@ -3,12 +3,27 @@ import {
   FETCH_INVOICES,
   FETCH_INVOICES_SUCCESS,
   FETCH_INVOICES_FAILURE,
+  CHANGE_DATE,
+  CHANGE_CUSTOMER_NAME,
+  CHANGE_SALESPERSON_NAME,
+  CHANGE_PAYMENT_TYPE,
+  CHANGE_NOTES,
 } from "../constants/types";
 
 const initialState = {
   invoices: [],
   loading_fetch_invoices: false,
   error_fetch_invoices: false,
+  invoiceData: {
+    invoice: {
+      date: "",
+      customer_name: "",
+      salesperson_name: "",
+      payment_type: "",
+      notes: "",
+    },
+  },
+  items: [],
   pagination: {
     totalCount: 0,
     totalPages: 0,
@@ -20,6 +35,66 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case CHANGE_DATE:
+      return {
+        ...state,
+        invoiceData: {
+          ...state.invoiceData,
+          invoice: {
+            ...state.invoiceData.invoice,
+            date: action.payload.date,
+          },
+        },
+      };
+
+    case CHANGE_CUSTOMER_NAME:
+      return {
+        ...state,
+        invoiceData: {
+          ...state.invoiceData,
+          invoice: {
+            ...state.invoiceData.invoice,
+            customer_name: action.payload.customerName,
+          },
+        },
+      };
+
+    case CHANGE_SALESPERSON_NAME:
+      return {
+        ...state,
+        invoiceData: {
+          ...state.invoiceData,
+          invoice: {
+            ...state.invoiceData.invoice,
+            customer_name: action.payload.salesPersonName,
+          },
+        },
+      };
+
+    case CHANGE_PAYMENT_TYPE:
+      return {
+        ...state,
+        invoiceData: {
+          ...state.invoiceData,
+          invoice: {
+            ...state.invoiceData.invoice,
+            customer_name: action.payload.paymentType,
+          },
+        },
+      };
+
+    case CHANGE_NOTES:
+      return {
+        ...state,
+        invoiceData: {
+          ...state.invoiceData,
+          invoice: {
+            ...state.invoiceData.invoice,
+            customer_name: action.payload.notes,
+          },
+        },
+      };
+
     case FETCH_INVOICES:
       return {
         ...state,
