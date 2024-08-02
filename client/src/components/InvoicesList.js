@@ -5,6 +5,7 @@ import { Box, Typography, Card, CardContent, Button } from "@mui/material";
 import InvoiceCard from "./InvoiceCard";
 import { fetchInvoicesData } from "../api";
 import Paginate from "./Paginate";
+import { resetState } from "../redux/actions";
 
 const InvoicesList = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const InvoicesList = () => {
   const errorFetchInvoice = useSelector((state) => state.error_fetch_invoices);
 
   useEffect(() => {
+    dispatch(resetState());
     dispatch(fetchInvoicesData());
   }, [dispatch]);
 
