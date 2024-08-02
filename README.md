@@ -81,7 +81,7 @@ The application implements the following features:
 
    ```bash
    cd client
-   npm start
+   yarn start
    ```
 
 ## Usage
