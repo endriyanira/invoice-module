@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -38,6 +38,7 @@ import {
   changePaymentType,
   changeNotes,
   changeItems,
+  resetState,
 } from "../redux/actions";
 import { getDateFromISOString } from "../utils";
 import { postInvoice } from "../api";
@@ -101,8 +102,6 @@ const AddInvoice = () => {
     if (field === "quantity") {
       const price = newItem.price;
       const qty = newItem.quantity;
-      console.log(price);
-      console.log(qty);
     }
   };
 
@@ -128,10 +127,12 @@ const AddInvoice = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(postInvoice(invoice, items));
-    if (create_invoice_success_message !== "") {
-      navigate("/");
-    }
+    navigate("/");
   };
+
+  useEffect(() => {
+    dispatch(resetState());
+  }, []);
 
   return (
     <Box
