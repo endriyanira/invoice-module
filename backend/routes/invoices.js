@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const db = require("../config/db");
 
-const Invoice = require("../models/invoice.model");
 const InvoiceDAO = require("../dao/invoice.dao");
 const InvoiceProductDAO = require("../dao/invoiceproduct.dao");
 
