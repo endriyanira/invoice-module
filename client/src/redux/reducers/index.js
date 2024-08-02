@@ -34,6 +34,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+  console.log(action.payload);
   switch (action.type) {
     case CHANGE_DATE:
       return {
@@ -42,7 +43,7 @@ const reducer = (state = initialState, action) => {
           ...state.invoiceData,
           invoice: {
             ...state.invoiceData.invoice,
-            date: action.payload.date,
+            date: action.payload,
           },
         },
       };
@@ -54,7 +55,7 @@ const reducer = (state = initialState, action) => {
           ...state.invoiceData,
           invoice: {
             ...state.invoiceData.invoice,
-            customer_name: action.payload.customerName,
+            customer_name: action.payload,
           },
         },
       };
@@ -66,7 +67,7 @@ const reducer = (state = initialState, action) => {
           ...state.invoiceData,
           invoice: {
             ...state.invoiceData.invoice,
-            customer_name: action.payload.salesPersonName,
+            customer_name: action.payload,
           },
         },
       };
@@ -78,7 +79,7 @@ const reducer = (state = initialState, action) => {
           ...state.invoiceData,
           invoice: {
             ...state.invoiceData.invoice,
-            customer_name: action.payload.paymentType,
+            customer_name: action.payload,
           },
         },
       };

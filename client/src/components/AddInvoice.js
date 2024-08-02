@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Autocomplete,
   TextField,
@@ -27,17 +28,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import productsJSON from "./products.json";
 
+import {
+  changeDate,
+  changeCustomerName,
+  changeSalesPersonName,
+  changePaymentType,
+  changeNotes,
+} from "../redux/actions";
+import { getDateFromISOString } from "../utils";
+
 const products = productsJSON;
 
 const AddInvoice = () => {
-  const [invoice, setInvoice] = useState({
-    date: new Date(),
-    customerName: "",
-    salespersonName: "",
-    paymentType: "",
-    notes: "",
-    items: [],
-  });
+  const dispatch = useDispatch();
+  const invoiceData = useSelector((state) => state.invoiceData);
 
   const [items, setItems] = useState([
     { name: "", picture: "", quantity: 1, price: 0, totalPrice: 0 },
@@ -49,11 +53,6 @@ const AddInvoice = () => {
     price: 0,
     totalPrice: 0,
   });
-
-  //   Handle change for customer name, salesperson, payment type, notes
-  const handleInputChange = (e, field) => {
-    setInvoice({ ...invoice, [field]: e.target.value });
-  };
 
   const handleChangeItemProduct = (e, value, index) => {
     if (value) {
@@ -116,7 +115,7 @@ const AddInvoice = () => {
     fetch("/localhost:3000/invoices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(invoice),
+      body: JSON.stringify({ invoiceData }),
     })
       .then((response) => response.json())
       .then((data) => console.log(data))
@@ -136,9 +135,13 @@ const AddInvoice = () => {
               <DemoItem>
                 <DatePicker
                   label="Date"
-                  defaultValue={dayjs(invoice.date)}
-                  onChange={(newValue) =>
-                    setInvoice({ ...invoice, date: newValue })
+                  defaultValue={dayjs(invoiceData.date)}
+                  // onChange={(newValue) => {
+                  //   console.log(dayjs(newValue));
+                  //   setInvoice({ ...invoice, date: newValue });
+                  // }}
+                  onChange={(date) =>
+                    dispatch(changeDate(getDateFromISOString(date)))
                   }
                   required
                 />
@@ -149,8 +152,8 @@ const AddInvoice = () => {
             <TextField
               label="Customer Name"
               name="customerName"
-              value={invoice.customerName}
-              onChange={(e) => handleInputChange(e, "customerName")}
+              value={invoiceData.customer_name}
+              onChange={(e) => dispatch(changeCustomerName(e.target.value))}
               required
             />
 
@@ -158,16 +161,16 @@ const AddInvoice = () => {
             <TextField
               label="Salesperson Name"
               name="salespersonName"
-              value={invoice.salespersonName}
-              onChange={(e) => handleInputChange(e, "salespersonName")}
+              value={invoiceData.salesperson_name}
+              onChange={(e) => dispatch(changeSalesPersonName(e.target.value))}
             />
 
             {/* Payment Type */}
             <TextField
               label="Payment Type"
               name="paymentType"
-              value={invoice.paymentType}
-              onChange={(e) => handleInputChange(e, "paymentType")}
+              value={invoiceData.payment_type}
+              onChange={(e) => dispatch(changePaymentType(e.target.value))}
               required
             />
 
@@ -175,10 +178,10 @@ const AddInvoice = () => {
             <TextField
               label="Notes"
               name="notes"
-              value={invoice.notes}
+              value={invoiceData.notes}
               multiline
               rows={4}
-              onChange={(e) => handleInputChange(e, "notes")}
+              onChange={(e) => dispatch(changeNotes(e.target.value))}
             />
           </Box>
 
