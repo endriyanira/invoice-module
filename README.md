@@ -1,6 +1,31 @@
 # Invoice Module
 
-This repository contains the code for an invoice module, including both backend and frontend components.
+This repository contains the source code for a React-based web application for an invoice module feature of a Point of Sales System.
+
+## Features
+
+The application implements the following features:
+
+**Add invoice with autocomplete for product input:**
+
+- [x] Mandatory invoice data: date, customer name, salesperson name, notes (optional), and multiple products sold.
+- [x] Autocomplete product suggestions as the user types. Each product suggestion includes product name, product picture, stock, and price.
+- [x] POST API called using `fetch` or `axios` to save the invoice to the database.
+- [ ] Form validation to ensure all required fields are filled.
+- [ ] Error messages displayed for invalid inputs.
+- [ ] Success notification upon successful submission
+
+**Invoice card with pagination:**
+
+- [x] Displays a list of invoices with pagination.
+- [x] Each invoice card shows the customer name, salesperson name, total amount paid, and notes.
+- [ ] Invoice data is queried from the backend using a GET API with lazy loading.
+
+**Time-series graph:**
+
+- [ ] Displays a graph to project revenue from invoices for daily, weekly, and monthly periods.
+- [ ] Enables user to pan and zoom to specific periods.
+- [ ] Auto scrolls when new data is pushed.
 
 ## Project Structure
 
@@ -9,9 +34,11 @@ This repository contains the code for an invoice module, including both backend 
 
 ## Prerequisites
 
+- React.js
+- Redux
 - Node.js
-- npm or yarn
-- MySQL or PostgreSQL database
+- npm and yarn
+- MySQL database
 
 ## Installation
 
@@ -59,6 +86,7 @@ This repository contains the code for an invoice module, including both backend 
 
 ## Usage
 
+- Configure database credentials in the `config.js` file.
 - Access the application at `http://localhost:3000` for the frontend.
 - API endpoints can be accessed via the backend server running at `http://localhost:5000`.
 - You can update the backend server running port at `backend/bin/www` file.
