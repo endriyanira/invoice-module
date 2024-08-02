@@ -1,10 +1,11 @@
+require("dotenv").config();
 const mysql = require("mysql2");
 
 const dbConfig = {
-  host: "localhost",
-  user: "wida_tech_user",
-  password: "password",
-  database: "wida_tech_invoice",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 };
 
 const connection = mysql.createConnection(dbConfig);
