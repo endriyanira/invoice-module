@@ -1,11 +1,14 @@
 const db = require("../config/db");
 const Invoice = require("../models/invoice.model");
-const { getInvoiceTotalAmount } = require("../utils/utils");
+const {
+  getInvoiceTotalAmount,
+  getDateFromISOString,
+} = require("../utils/utils");
 
 class InvoiceDAO {
   getAllInvoices = async (page, perPage) => {
     const offset = (page - 1) * perPage;
-    const query = `SELECT * FROM invoices LIMIT ${perPage} OFFSET ${offset}`;
+    const query = `SELECT * FROM invoices ORDER BY date DESC LIMIT ${perPage} OFFSET ${offset}`;
     const [rows] = await db.execute(query);
 
     // Get the total count of invoices
@@ -78,6 +81,41 @@ class InvoiceDAO {
     ];
     const result = await db.execute(query, values);
     return result[0].insertId;
+  };
+
+  getDailyRevenue = async (date = new Date()) => {
+    // precise day
+    const dailySQL = `
+    SELECT SUM(total_amount) AS daily_revenue
+    FROM invoices
+    WHERE DATE(date) = DATE('${getDateFromISOString(date)}')`;
+    const dailyResult = await db.execute(dailySQL);
+    return dailyResult[0][0].daily_revenue;
+  };
+
+  getMonthlyRevenue = async (
+    startDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1 + 1
+    ),
+    endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+  ) => {
+    // monthly revenue
+    const monthlySQL = `
+      SELECT 
+          SUM(total_amount) AS monthly_revenue
+      FROM 
+          invoices
+      WHERE
+          date BETWEEN '${getDateFromISOString(
+            startDate
+          )}' AND '${getDateFromISOString(endDate)}';
+    `;
+
+    const monthlyResult = await db.execute(monthlySQL);
+    console.log(monthlyResult[0][0].monthly_revenue);
+    return monthlyResult[0][0].monthly_revenue;
   };
 }
 
