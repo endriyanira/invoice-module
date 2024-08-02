@@ -6,6 +6,7 @@ import InvoiceCard from "./InvoiceCard";
 import { fetchInvoicesData } from "../api";
 import Paginate from "./Paginate";
 import { resetState } from "../redux/actions";
+import InvoiceCardSkeleton from "./InvoiceCardSkeleton";
 
 const InvoicesList = () => {
   const dispatch = useDispatch();
@@ -71,12 +72,31 @@ const InvoicesList = () => {
                 justifyContent: "space-between",
               }}
             >
-              {invoices.map((invoice, i) => (
-                <InvoiceCard
-                  key={`invoice-key:${i.toString()}`}
-                  invoice={invoice}
-                />
-              ))}
+              {loadingFetchInvoice ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    justifyContent: "space-between",
+                    gap: "40px",
+                  }}
+                >
+                  <InvoiceCardSkeleton />
+                  <InvoiceCardSkeleton />
+                  <InvoiceCardSkeleton />
+                  <InvoiceCardSkeleton />
+                  <InvoiceCardSkeleton />
+                  <InvoiceCardSkeleton />
+                </Box>
+              ) : (
+                invoices.map((invoice, i) => (
+                  <InvoiceCard
+                    key={`invoice-key:${i.toString()}`}
+                    invoice={invoice}
+                  />
+                ))
+              )}
             </Box>
           </CardContent>
         </Card>
