@@ -11,6 +11,7 @@ import {
   CREATE_INVOICE,
   CREATE_INVOICE_SUCCESS,
   CREATE_INVOICE_FAILURE,
+  RESET_STATE,
 } from "../constants/types";
 
 const initialState = {
@@ -134,6 +135,31 @@ const reducer = (state = initialState, action) => {
         invoices: [],
         error_fetch_invoices: action.payload.error,
         loading_fetch_invoices: false,
+      };
+
+    case RESET_STATE:
+      return {
+        invoices: [],
+        loading_fetch_invoices: false,
+        error_fetch_invoices: false,
+        loading_create_invoice: false,
+        error_create_invoice: false,
+        create_invoice_success_message: "",
+        invoice: {
+          date: new Date(),
+          customer_name: "",
+          salesperson_name: "",
+          payment_type: "",
+          notes: "",
+        },
+        items: [],
+        pagination: {
+          totalCount: 0,
+          totalPages: 0,
+          currentPage: 1,
+          hasNextPage: false,
+          hasPreviousPage: false,
+        },
       };
 
     default:

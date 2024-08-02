@@ -1,4 +1,5 @@
 import {
+  RESET_STATE,
   FETCH_INVOICES,
   FETCH_INVOICES_SUCCESS,
   FETCH_INVOICES_FAILURE,
@@ -13,6 +14,11 @@ import {
   CREATE_INVOICE_FAILURE,
 } from "../constants/types";
 
+export const resetState = () => {
+  return {
+    type: RESET_STATE,
+  };
+};
 export const fetchInvoices = () => {
   return {
     type: FETCH_INVOICES,
