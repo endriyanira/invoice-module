@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 
-import { formatCurrency, getDateFromISOString } from "../utils";
+import { formatCurrency, getDate } from "../utils";
 
 const InvoiceCard = ({ invoice }) => {
   return (
@@ -36,7 +36,7 @@ const InvoiceCard = ({ invoice }) => {
             }}
           >
             <Typography variant="body2" component="h2">
-              {getDateFromISOString(invoice.date)}
+              {getDate(invoice.date)}
             </Typography>
             <Box
               sx={{
