@@ -8,7 +8,7 @@ const {
 class InvoiceDAO {
   getAllInvoices = async (page, perPage) => {
     const offset = (page - 1) * perPage;
-    const query = `SELECT * FROM invoices ORDER BY date DESC LIMIT ${perPage} OFFSET ${offset}`;
+    const query = `SELECT * FROM invoices ORDER BY id DESC, date DESC LIMIT ${perPage} OFFSET ${offset}`;
     const [rows] = await db.execute(query);
 
     // Get the total count of invoices
@@ -114,7 +114,6 @@ class InvoiceDAO {
     `;
 
     const monthlyResult = await db.execute(monthlySQL);
-    console.log(monthlyResult[0][0].monthly_revenue);
     return monthlyResult[0][0].monthly_revenue;
   };
 }
